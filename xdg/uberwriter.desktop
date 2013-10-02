@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=uberwriter
+Icon=/home/queen/src/uberwriter/data/media/uberwriter.svg
+StartupNotify=true
+Terminal=false
+Categories=Utility;TextEditor;GTK;
+MimeType=application/x-uberwriter;text/x-uberwriter;text/x-markdown
+Name=UberWriter
+Comment=Edit markdown text files "ala" visual style.
+GenericName=Text Editor
+Name[es]=UberWriter
+Comment[es]=Editar ficheros de texto con sintaxis markdown "a lo visual".
+GenericName[es]=Editor de texto
+
