@@ -27,7 +27,10 @@ locale.textdomain('uberwriter')
 PROJECT_ROOT_DIRECTORY = os.path.abspath(
     os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
 
-os.putenv("XDG_DATA_DIRS", os.path.join(PROJECT_ROOT_DIRECTORY, "data"))
+xdg_data_dirs = os.path.join(PROJECT_ROOT_DIRECTORY, "data")
+if os.getenv("XDG_DATA_DIRS"):
+    xdg_data_dirs = "%s:%s" % (xdg_data_dirs, os.getenv("XDG_DATA_DIRS"))
+os.putenv("XDG_DATA_DIRS", xdg_data_dirs)
 python_path = []
 if os.path.abspath(__file__).startswith('/opt'):
     locale.bindtextdomain('uberwriter', '/opt/extras.ubuntu.com/uberwriter/share/locale')
