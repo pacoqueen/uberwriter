@@ -330,7 +330,8 @@
                         <property name="use_underline">False</property>
                         <property name="draw_as_radio">True</property>
                         <signal name="toggled" handler="menu_activate_preview" swapped="no"/>
-                        <accelerator key="p" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="p" signal="activate" modifiers="GDK_CONTROL_MASK"/> 
+                        <accelerator key="m" signal="activate" modifiers="GDK_MOD1_MASK | GDK_CONTROL_MASK"/>
                       </object>
                     </child>                    
                     <child>
