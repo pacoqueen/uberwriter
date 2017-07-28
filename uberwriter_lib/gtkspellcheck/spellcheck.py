@@ -601,38 +601,39 @@ class SpellChecker(object):
             word = self._buffer.get_text(start, end, False).strip()
         else:
             word = self._buffer.get_text(start, end, False).decode('utf-8').strip()
-        if len(self._filters[SpellChecker.FILTER_WORD]):
-            if self._regexes[SpellChecker.FILTER_WORD].match(word):
-                return
-        if len(self._filters[SpellChecker.FILTER_LINE]):
-            line_start = self._buffer.get_iter_at_line(start.get_line())
-            line_end = end.copy()
-            line_end.forward_to_line_end()
-            if _py3k:
-                line = self._buffer.get_text(line_start, line_end, False)
-            else:
-                line = self._buffer.get_text(line_start, line_end,
-                                             False).decode('utf-8')
-            for match in self._regexes[SpellChecker.FILTER_LINE].finditer(line):
-                if match.start() <= start.get_line_offset() <= match.end():
-                    start = self._buffer.get_iter_at_line_offset(
-                        start.get_line(), match.start())
-                    end = self._buffer.get_iter_at_line_offset(start.get_line(),
-                                                               match.end())
-                    self._buffer.remove_tag(self._misspelled, start, end)
+        if word:
+            if len(self._filters[SpellChecker.FILTER_WORD]):
+                if self._regexes[SpellChecker.FILTER_WORD].match(word):
                     return
-        if len(self._filters[SpellChecker.FILTER_TEXT]):
-            text_start, text_end = self._buffer.get_bounds()
-            if _py3k:
-                text = self._buffer.get_text(text_start, text_end, False)
-            else:
-                text = self._buffer.get_text(text_start, text_end,
-                                             False).decode('utf-8')
-            for match in self._regexes[SpellChecker.FILTER_TEXT].finditer(text):
-                if match.start() <= start.get_offset() <= match.end():
-                    start = self._buffer.get_iter_at_offset(match.start())
-                    end = self._buffer.get_iter_at_offset(match.end())
-                    self._buffer.remove_tag(self._misspelled, start, end)
-                    return
-        if not self._dictionary.check(word):
-            self._buffer.apply_tag(self._misspelled, start, end)
+            if len(self._filters[SpellChecker.FILTER_LINE]):
+                line_start = self._buffer.get_iter_at_line(start.get_line())
+                line_end = end.copy()
+                line_end.forward_to_line_end()
+                if _py3k:
+                    line = self._buffer.get_text(line_start, line_end, False)
+                else:
+                    line = self._buffer.get_text(line_start, line_end,
+                                                 False).decode('utf-8')
+                for match in self._regexes[SpellChecker.FILTER_LINE].finditer(line):
+                    if match.start() <= start.get_line_offset() <= match.end():
+                        start = self._buffer.get_iter_at_line_offset(
+                            start.get_line(), match.start())
+                        end = self._buffer.get_iter_at_line_offset(start.get_line(),
+                                                                   match.end())
+                        self._buffer.remove_tag(self._misspelled, start, end)
+                        return
+            if len(self._filters[SpellChecker.FILTER_TEXT]):
+                text_start, text_end = self._buffer.get_bounds()
+                if _py3k:
+                    text = self._buffer.get_text(text_start, text_end, False)
+                else:
+                    text = self._buffer.get_text(text_start, text_end,
+                                                 False).decode('utf-8')
+                for match in self._regexes[SpellChecker.FILTER_TEXT].finditer(text):
+                    if match.start() <= start.get_offset() <= match.end():
+                        start = self._buffer.get_iter_at_offset(match.start())
+                        end = self._buffer.get_iter_at_offset(match.end())
+                        self._buffer.remove_tag(self._misspelled, start, end)
+                        return
+            if not self._dictionary.check(word):
+                self._buffer.apply_tag(self._misspelled, start, end)
